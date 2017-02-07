@@ -8,6 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!-- accounting.js link for formatting money -->
+    <!-- <script src="https://raw.githubusercontent.com/openexchangerates/accounting.js/master/accounting.min.js"></script> -->
 
     <title>Business Casual - Start Bootstrap Theme</title>
 
@@ -47,14 +50,31 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="index.html">Business Casual</a>
+                <a class="navbar-brand" href="index.html">Glassdoor API</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
+
                     <li>
-                        <a href="index.html">Home</a>
+                        <form>
+                          What Kind Of Position Are You Interested In?: <input type="text" name="job-title">
+                        </form>
+
                     </li>
+                    <li>
+                      <button type="button" class="submit" name="button">Submit</button>
+                    </li>
+                    <li>
+                        <form>
+                          City: <input type="text" name="city">
+                        </form>
+                        <form>
+                          State: <input type="text" name="state">
+                        </form>
+
+                    </li>
+                    <!-- will be replacing with an input field
                     <li>
                         <a href="about.html">About</a>
                     </li>
@@ -63,7 +83,7 @@
                     </li>
                     <li>
                         <a href="contact.html">Contact</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -71,20 +91,21 @@
         <!-- /.container -->
     </nav>
 
-    <div class="container">
 
+    <div class="container">
+<!-- testing
         <div class="row">
             <div class="box">
                 <div class="col-lg-12 text-center">
                     <div id="carousel-example-generic" class="carousel slide">
-                        <!-- Indicators -->
+                    --><!-- Indicators --> <!--
                         <ol class="carousel-indicators hidden-xs">
                             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
                             <li data-target="#carousel-example-generic" data-slide-to="1"></li>
                             <li data-target="#carousel-example-generic" data-slide-to="2"></li>
                         </ol>
 
-                        <!-- Wrapper for slides -->
+                      --><!-- Wrapper for slides --> <!--
                         <div class="carousel-inner">
                             <div class="item active">
                                 <img class="img-responsive img-full" src="img/slide-1.jpg" alt="">
@@ -97,7 +118,7 @@
                             </div>
                         </div>
 
-                        <!-- Controls -->
+                      --> <!-- Controls --> <!--
                         <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
                             <span class="icon-prev"></span>
                         </a>
@@ -118,14 +139,15 @@
                 </div>
             </div>
         </div>
-
+          -->
         <div class="row">
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
-                    <h2 class="intro-text text-center">Build a website
-                        <strong>worth visiting</strong>
+                    <h2 class="intro-text text-center">National Average Salary
+                        <strong class="role-selected">Variable I will edit with jQuery</strong>
                     </h2>
+                    <h2 class="salary"></h2>
                     <hr>
                     <img class="img-responsive img-border img-left" src="img/intro-pic.jpg" alt="">
                     <hr class="visible-xs">
@@ -157,17 +179,23 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>Copyright &copy; My Website 2017</p>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- Bootstrap for JS Accounting -->
+    <script src="js/accounting.js"></script>
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript I am editing -->
+    <script src="js/bootstrap.js"></script>
 
     <!-- Script to Activate the Carousel -->
     <script>

@@ -4,6 +4,63 @@
  * Licensed under the MIT license
  */
 
+
+/* Code for jQuery GET to GlassDoor */
+
+
+
+// $.get("http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=Software_Engineer", function(items) {
+//   console.log("this is from inside GET: ", items.response.jobTitle);
+// }).then(showSuccess);
+//
+// function showSuccess(result) {
+//   console.log("this is from .then: ", result.response.payCurrencyCode);
+// }
+
+$('.submit').on("click", function() {
+  var roleInputted = $("input[name=job-title]");
+  var concateRole = roleInputted.val().replace( / +/g, '_');
+  console.log(concateRole);
+
+  var cityInputted = $("input[name=city]");
+  var concateCity = cityInputted.val().replace( / +/g, '_');
+  console.log(concateCity);
+
+  var stateInputted = $("input[name=state]");
+  var concateState = stateInputted.val().replace( / +/g, '_');
+  console.log(concateState);
+
+  var salaryReturn;
+
+  $.get("http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=Software_Engineer", function(items) {
+    console.log("this is from inside GET: ", items.response.jobTitle);
+  }).then(showSuccess);
+
+  function showSuccess(result) {
+    console.log("this is from .then: ", result.response.payCurrencyCode);
+    salaryReturn = result.response.payMedian;
+    $('.salary').text(accounting.formatMoney(salaryReturn));
+  }
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if (typeof jQuery === 'undefined') {
   throw new Error('Bootstrap\'s JavaScript requires jQuery')
 }
