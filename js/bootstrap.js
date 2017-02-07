@@ -5,55 +5,63 @@
  */
 
 
-/* Code for jQuery GET to GlassDoor */
+/* JS code to GlassDoor by Boughton */
+/* JS code to GlassDoor by Boughton */
+
+var sendGetRequestSalary = function(url) {
+  $.get(url, function() {
+  }).then(showSuccessSalary);
+
+  function showSuccessSalary(result) {
+    var salaryReturn = result.response.payMedian;
+    var salaryReturnLOW = result.response.payLow;
+    var salaryReturnHIGH = result.response.payHigh;
+    $('.salary').text(accounting.formatMoney(salaryReturn));
+    $('.salary-low').text(accounting.formatMoney(salaryReturnLOW));
+    $('.salary-high').text(accounting.formatMoney(salaryReturnHIGH));
+  }
+};
+
+var sendGetRequestCompanies = function(url){
+  $.get(url, function() {
+  }).then(showSuccessReviews);
+
+  function showSuccessReviews(result) {
+    var employersReturned = result.response.employers;
+    employersReturned.sort(function(a, b) {
+        return parseFloat(b.overallRating) - parseFloat(a.overallRating);
+    });
+    //clearing the company reviews if the user clicks submit again before refresh
+    $('.company-reviews').empty();
+    employersReturned.forEach( function (items) {
+      $('.company-reviews').append($('<strong>').text(items.name));
+      $('.company-reviews').append($('<li>').text("Overall Company Rating on glassdoor - " + items.overallRating));
+      $('.company-reviews').append($('<li>').text("Position - " + items.featuredReview.jobTitle));
+      $('.company-reviews').append($('<li>').text("Review Headline - " + items.featuredReview.headline));
+      $('.company-reviews').append($('<li>').text("Pros - " + items.featuredReview.pros));
+      $('.company-reviews').append($('<li>').text("Cons - " + items.featuredReview.cons));
+    });
+  }
+};
 
 
 $('.submit').on("click", function() {
   var roleInputted = $("input[name=job-title]");
   $('.role-selected').text(roleInputted.val());
   var concateRole = roleInputted.val().replace( / +/g, '_');
-  console.log(concateRole);
 
   var cityInputted = $("input[name=city]");
   var concateCity = cityInputted.val().replace( / +/g, '_');
-  console.log(concateCity);
 
   var stateInputted = $("input[name=state]");
   var concateState = stateInputted.val().replace( / +/g, '_');
-  console.log(concateState);
 
-  var salaryReturn;
+  var salaryURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=" + concateRole;
 
-  $.get("http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=Software_Engineer", function(items) {
-  }).then(showSuccessSalary);
+  var companiesURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&q=" + concateRole + "&city=" + concateCity + "&state=" + concateState + "&pn=1";
 
-  function showSuccessSalary(result) {
-    salaryReturn = result.response.payMedian;
-    salaryReturnLOW = result.response.payLow;
-    salaryReturnHIGH = result.response.payHigh;
-    $('.salary').text(accounting.formatMoney(salaryReturn));
-    $('.salary-low').text(accounting.formatMoney(salaryReturnLOW));
-    $('.salary-high').text(accounting.formatMoney(salaryReturnHIGH));
-  }
-
-  $.get("http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&q=software_engineer&I=denver&city=denver&state=colorado&pn=1", function(items) {
-  }).then(showSuccessReviews);
-
-  function showSuccessReviews(result) {
-
-    console.log('this is from reviews lashed: ', result.response.lashedLocation);
-    console.log('this is from reviews employers: ', result.response.employers);
-
-    // salaryReturn = result.response.payMedian;
-    // salaryReturnLOW = result.response.payLow;
-    // salaryReturnHIGH = result.response.payHigh;
-    // $('.salary').text(accounting.formatMoney(salaryReturn));
-    // $('.salary-low').text(accounting.formatMoney(salaryReturnLOW));
-    // $('.salary-high').text(accounting.formatMoney(salaryReturnHIGH));
-  }
-
-
-
+  sendGetRequestSalary(salaryURL);
+  sendGetRequestCompanies(companiesURL);
 });
 
 
@@ -67,6 +75,11 @@ $('.submit').on("click", function() {
 
 
 
+
+
+
+/* JS code to GlassDoor by Boughton */
+/* JS code to GlassDoor by Boughton */
 
 
 if (typeof jQuery === 'undefined') {
