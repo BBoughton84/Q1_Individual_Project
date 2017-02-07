@@ -239,13 +239,18 @@ th {
     page-break-after: avoid;
   }
 
-/*=====================================
+/*============================================================================
           My Inputted CSS code
-=====================================*/
+============================================================================*/
 
 .monies {
-  display: flex;
+  /*display: flex;
   justify-content: center;
+  border: 2px solid red;*/
+  margin-left: 30px;
+  margin-right: 30px;
+}
+.box1 {
   border: 2px solid red;
 }
 
@@ -253,10 +258,9 @@ th {
 
 
 
-
-/*=====================================
+/*============================================================================
           My Inputted CSS code
-=====================================*/
+============================================================================*/
 
   .navbar {
     display: none;
@@ -6773,5 +6777,27 @@ button.close {
   .hidden-print {
     display: none !important;
   }
+}
+
+/*=====================================================================
+                          CSS changed for Salary return and inputs
+
+======================================================================*/
+.monies {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid red;
+  font-size: 24px;
+}
+.box1 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 2px solid green;
+}
+
+.input-form {
+  border: 2px solid blue;
 }
 /*# sourceMappingURL=bootstrap.css.map */

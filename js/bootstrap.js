@@ -16,9 +16,9 @@ var sendGetRequestSalary = function(url) {
     var salaryReturn = result.response.payMedian;
     var salaryReturnLOW = result.response.payLow;
     var salaryReturnHIGH = result.response.payHigh;
-    $('.salary').text(accounting.formatMoney(salaryReturn));
-    $('.salary-low').text(accounting.formatMoney(salaryReturnLOW));
-    $('.salary-high').text(accounting.formatMoney(salaryReturnHIGH));
+    $('.salary').text("Median Pay - " + accounting.formatMoney(salaryReturn));
+    $('.salary-low').text("Low Pay - " + accounting.formatMoney(salaryReturnLOW));
+    $('.salary-high').text("High Pay - " + accounting.formatMoney(salaryReturnHIGH));
   }
 };
 
