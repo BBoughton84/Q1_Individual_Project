@@ -8,17 +8,9 @@
 /* Code for jQuery GET to GlassDoor */
 
 
-
-// $.get("http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=Software_Engineer", function(items) {
-//   console.log("this is from inside GET: ", items.response.jobTitle);
-// }).then(showSuccess);
-//
-// function showSuccess(result) {
-//   console.log("this is from .then: ", result.response.payCurrencyCode);
-// }
-
 $('.submit').on("click", function() {
   var roleInputted = $("input[name=job-title]");
+  $('.role-selected').text(roleInputted.val());
   var concateRole = roleInputted.val().replace( / +/g, '_');
   console.log(concateRole);
 
@@ -33,16 +25,32 @@ $('.submit').on("click", function() {
   var salaryReturn;
 
   $.get("http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=Software_Engineer", function(items) {
-    console.log("this is from inside GET: ", items.response.jobTitle);
-  }).then(showSuccess);
+  }).then(showSuccessSalary);
 
-  function showSuccess(result) {
-    console.log("this is from .then: ", result.response.payCurrencyCode);
+  function showSuccessSalary(result) {
     salaryReturn = result.response.payMedian;
+    salaryReturnLOW = result.response.payLow;
+    salaryReturnHIGH = result.response.payHigh;
     $('.salary').text(accounting.formatMoney(salaryReturn));
+    $('.salary-low').text(accounting.formatMoney(salaryReturnLOW));
+    $('.salary-high').text(accounting.formatMoney(salaryReturnHIGH));
   }
 
+  $.get("http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&q=software_engineer&I=denver&city=denver&state=colorado&pn=1", function(items) {
+  }).then(showSuccessReviews);
 
+  function showSuccessReviews(result) {
+
+    console.log('this is from reviews lashed: ', result.response.lashedLocation);
+    console.log('this is from reviews employers: ', result.response.employers);
+
+    // salaryReturn = result.response.payMedian;
+    // salaryReturnLOW = result.response.payLow;
+    // salaryReturnHIGH = result.response.payHigh;
+    // $('.salary').text(accounting.formatMoney(salaryReturn));
+    // $('.salary-low').text(accounting.formatMoney(salaryReturnLOW));
+    // $('.salary-high').text(accounting.formatMoney(salaryReturnHIGH));
+  }
 
 
 

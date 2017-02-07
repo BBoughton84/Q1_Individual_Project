@@ -238,6 +238,26 @@ th {
   h3 {
     page-break-after: avoid;
   }
+
+/*=====================================
+          My Inputted CSS code
+=====================================*/
+
+.monies {
+  display: flex;
+  justify-content: center;
+  border: 2px solid red;
+}
+
+
+
+
+
+
+/*=====================================
+          My Inputted CSS code
+=====================================*/
+
   .navbar {
     display: none;
   }
