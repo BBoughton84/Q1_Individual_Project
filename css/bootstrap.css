@@ -6800,4 +6800,8 @@ button.close {
 .input-form {
   border: 2px solid blue;
 }
+
+.refresh {
+  margin: 0 200px 0 200px;
+}
 /*# sourceMappingURL=bootstrap.css.map */

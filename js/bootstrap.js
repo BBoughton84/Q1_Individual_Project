@@ -8,6 +8,9 @@
 /* JS code to GlassDoor by Boughton */
 /* JS code to GlassDoor by Boughton */
 
+/*Global Variables*/
+var amountOfPages;
+
 var sendGetRequestSalary = function(url) {
   $.get(url, function() {
   }).then(showSuccessSalary);
@@ -41,8 +44,18 @@ var sendGetRequestCompanies = function(url){
       $('.company-reviews').append($('<li>').text("Pros - " + items.featuredReview.pros));
       $('.company-reviews').append($('<li>').text("Cons - " + items.featuredReview.cons));
     });
+
+    amountOfPages = result.response.totalNumberOfPages;
+    $('.random-page').text("1");
+    $('.random-page-total').text(amountOfPages);
   }
 };
+
+$('.refresh').on("click", function() {
+
+  console.log(amountOfPages);
+  var randomPage = Math.floor(Math.random()* amountOfPages +1);
+});
 
 
 $('.submit').on("click", function() {
@@ -58,7 +71,7 @@ $('.submit').on("click", function() {
 
   var salaryURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=" + concateRole;
 
-  var companiesURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&q=" + concateRole + "&city=" + concateCity + "&state=" + concateState + "&pn=1";
+  var companiesURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&q=" + concateRole + "&city=" + concateCity + "&state=" + concateState;
 
   sendGetRequestSalary(salaryURL);
   sendGetRequestCompanies(companiesURL);
