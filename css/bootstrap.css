@@ -243,18 +243,6 @@ th {
           My Inputted CSS code
 ============================================================================*/
 
-.monies {
-  /*display: flex;
-  justify-content: center;
-  border: 2px solid red;*/
-  margin-left: 30px;
-  margin-right: 30px;
-}
-.box1 {
-  border: 2px solid red;
-}
-
-
 
 
 
@@ -6783,25 +6771,89 @@ button.close {
                           CSS changed for Salary return and inputs
 
 ======================================================================*/
-.monies {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid red;
-  font-size: 24px;
-}
+
 .box1 {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border: 2px solid green;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/*.main-name {
+  margin-top: 90px;
+}
+
+li:last-child {
+  margin-bottom: 50px;
+}*/
+
+.last-li {
+  margin-bottom: 50px;
+}
+
+.overall-rating {
+  list-style: none;
+  text-decoration: underline;
+  color: red;
+  padding-left: 15px;
+}
+.monies {
+  display: flex;
+  justify-content: center;
+}
+
+.salary-low {
+  text-shadow: 1px;
+  font-weight: 300;
+  font-size: 16px;
+  font-style: oblique;
+}
+.salary {
+  font-size: 20px;
+  font-weight: 200;
+  font-style: oblique;
+  text-shadow: 1px;
+  color: #4d0000;
+}
+.salary-high {
+    font-size: 24px;
+    font-weight: 100;
+    font-style: oblique;
+    text-shadow: 2px;
+    color: #660000;
 }
 
 .input-form {
-  border: 2px solid blue;
+  display: flex;
+  font-size: 15px;
+  flex-direction: column;
+  /*margin-top: 1px;
+  margin-bottom: 1px;*/
+
 }
 
-.refresh {
-  margin: 0 200px 0 200px;
+.input-text {
+  display: flex;
+  justify-content: center;
 }
+
+.submit {
+  border-radius: 10px;
+  background-color: #b33c00;
+  color: white;
+
+}
+.button-box {
+  display: flex;
+  justify-content: center;
+}
+.refresh {
+  border-radius: 10px;
+  background-color: #b33c00;
+  color: white;
+  font-size: 16px;
+}
+
+
+
+
 /*# sourceMappingURL=bootstrap.css.map */

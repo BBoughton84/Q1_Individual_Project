@@ -31,9 +31,9 @@ var sendGetRequestSalary = function(url) {
     var salaryReturn = result.response.payMedian;
     var salaryReturnLOW = result.response.payLow;
     var salaryReturnHIGH = result.response.payHigh;
-    $('.salary').text("Median Pay - " + accounting.formatMoney(salaryReturn));
-    $('.salary-low').text("Low Pay - " + accounting.formatMoney(salaryReturnLOW));
-    $('.salary-high').text("High Pay - " + accounting.formatMoney(salaryReturnHIGH));
+    $('.salary').text("Average - " + accounting.formatMoney(salaryReturn));
+    $('.salary-low').text("Low - " + accounting.formatMoney(salaryReturnLOW));
+    $('.salary-high').text("High - " + accounting.formatMoney(salaryReturnHIGH));
   }
 };
 
@@ -55,20 +55,21 @@ var sendGetRequestCompanies = function(url){
 
     employersReturned.forEach( function (items) {
       var tempNameHolder = items.name.replace( / +/g, '-');
-      $('.company-reviews').append($(`<a class="title-name-${tempNameHolder}" target="_blank">`).text(items.name));
+      $('.company-reviews').append($(`<a class="main-name title-name-${tempNameHolder}" target="_blank">`).text(items.name));
       var linkHolder = "https://www.monster.com/jobs/search/?q=" + tempNameHolder + "-" + searchRole + "&where=" + searchCity + "__2C-" + searchState;
       $(`.title-name-${tempNameHolder}`).attr('href', linkHolder);
-      $('.company-reviews').append($('<li>').text("Overall Company Rating on glassdoor - " + items.overallRating));
-      $('.company-reviews').append($('<li>').text("Position - " + items.featuredReview.jobTitle));
-      $('.company-reviews').append($('<li>').text("Review Headline - " + items.featuredReview.headline));
-      $('.company-reviews').append($('<li>').text("Pros - " + items.featuredReview.pros));
-      $('.company-reviews').append($('<li>').text("Cons - " + items.featuredReview.cons));
+      $('.company-reviews').append($('<li class="overall-rating">').text( items.overallRating));
+      $('.company-reviews').append($('<li>').html("<strong>Position</strong> - " + items.featuredReview.jobTitle));
+      $('.company-reviews').append($('<li>').html("<strong>Review Headline</strong> - " + items.featuredReview.headline));
+      $('.company-reviews').append($('<li>').html("<strong>Pros</strong> - " + items.featuredReview.pros));
+      $('.company-reviews').append($('<li class="last-li">').html("<strong>Cons</strong> - " + items.featuredReview.cons));
     });
 
+    amountOfPages = result.response.totalNumberOfPages;
+    $('.random-page-total').text(amountOfPages);
+
     if (!refreshAlreadySet) {
-      amountOfPages = result.response.totalNumberOfPages;
       $('.random-page').text("1");
-      $('.random-page-total').text(amountOfPages);
       refreshAlreadySet = true;
     }
   }
