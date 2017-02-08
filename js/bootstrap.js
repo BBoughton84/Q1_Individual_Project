@@ -13,6 +13,15 @@ var amountOfPages;
 var companiesURL;
 var salaryURL;
 var refreshAlreadySet = false;
+var jobSearchLink;
+var roleForSearchLink;
+var cityForSearchLink;
+var stateForSearchLink;
+var searchRole;
+var searchCity;
+var searchState;
+
+
 
 var sendGetRequestSalary = function(url) {
   $.get(url, function() {
@@ -28,7 +37,7 @@ var sendGetRequestSalary = function(url) {
   }
 };
 
-var sendGetRequestCompanies = function(url){
+var sendGetRequestCompanies = function(url, link){
   $.get(url, function() {
   }).then(showSuccessReviews);
 
@@ -38,11 +47,24 @@ var sendGetRequestCompanies = function(url){
         return parseFloat(b.overallRating) - parseFloat(a.overallRating);
     });
     //clearing the company reviews if the user clicks submit again before refresh
-
     $('.company-reviews').empty();
+    $('.search-link').empty();
+    $('.search-link').append($('<h3>').text("Search For " + roleForSearchLink + " Positions In " + cityForSearchLink + ", " + stateForSearchLink));
+    $('.search-link').wrap('<a class="test-link-search" target="_blank">');
+    $('.test-link-search').attr('href', jobSearchLink);
 
     employersReturned.forEach( function (items) {
-      $('.company-reviews').append($('<strong>').text(items.name));
+      $('.company-reviews').append($('<strong class="title-name">').text(items.name));
+      $('.title-name').wrap('<a class="link-title-name" target="_blank">');
+
+      var tempNameHolder = items.name.replace( / +/g, '-');
+
+      console.log(tempNameHolder);
+
+      var linkHolder = "https://www.monster.com/jobs/search/?q=" + tempNameHolder + "-" + searchRole + "&where=" + searchCity + "__2C-" + searchState;
+
+
+      $('.link-title-name').attr('href', linkHolder);
       $('.company-reviews').append($('<li>').text("Overall Company Rating on glassdoor - " + items.overallRating));
       $('.company-reviews').append($('<li>').text("Position - " + items.featuredReview.jobTitle));
       $('.company-reviews').append($('<li>').text("Review Headline - " + items.featuredReview.headline));
@@ -70,17 +92,28 @@ $('.refresh').on("click", function() {
 $('.submit').on("click", function() {
   var roleInputted = $("input[name=job-title]");
   $('.role-selected').text(roleInputted.val());
+  roleForSearchLink = roleInputted.val();
+  searchRole = roleInputted.val().replace( / +/g, '-');
   var concateRole = roleInputted.val().replace( / +/g, '_');
 
   var cityInputted = $("input[name=city]");
+  cityForSearchLink = cityInputted.val();
+  searchCity = cityInputted.val().replace( / +/g, '-');
   var concateCity = cityInputted.val().replace( / +/g, '_');
 
+
   var stateInputted = $("input[name=state]");
+  stateForSearchLink = stateInputted.val();
+  searchState = stateInputted.val().replace( / +/g, '-');
   var concateState = stateInputted.val().replace( / +/g, '_');
+
 
   salaryURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=" + concateRole;
 
   companiesURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&q=" + concateRole + "&city=" + concateCity + "&state=" + concateState;
+
+  jobSearchLink = "https://www.monster.com/jobs/search/?q=" + searchRole + "&where=" + searchCity + "__2C-" + searchState;
+
 
   refreshAlreadySet = false;
 
