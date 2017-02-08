@@ -33,8 +33,6 @@ var sendGetRequestCompanies = function(url){
   }).then(showSuccessReviews);
 
   function showSuccessReviews(result) {
-    console.log(result);
-    alert('inside success function');
     var employersReturned = result.response.employers;
     employersReturned.sort(function(a, b) {
         return parseFloat(b.overallRating) - parseFloat(a.overallRating);
@@ -64,12 +62,8 @@ var sendGetRequestCompanies = function(url){
 $('.refresh').on("click", function() {
   var randomPage = Math.floor(Math.random()* amountOfPages +1);
   $('.random-page').text(randomPage);
-  console.log(randomPage);
   var randomNumUrl = companiesURL + "&pn=" + randomPage;
-  // refreshAlreadySet = true; //needed, probably not?
-  console.log(randomNumUrl);
   sendGetRequestCompanies(randomNumUrl);
-
 });
 
 
