@@ -10,6 +10,9 @@
 
 /*Global Variables*/
 var amountOfPages;
+var companiesURL;
+var salaryURL;
+var refreshAlreadySet = false;
 
 var sendGetRequestSalary = function(url) {
   $.get(url, function() {
@@ -30,12 +33,16 @@ var sendGetRequestCompanies = function(url){
   }).then(showSuccessReviews);
 
   function showSuccessReviews(result) {
+    console.log(result);
+    alert('inside success function');
     var employersReturned = result.response.employers;
     employersReturned.sort(function(a, b) {
         return parseFloat(b.overallRating) - parseFloat(a.overallRating);
     });
     //clearing the company reviews if the user clicks submit again before refresh
+
     $('.company-reviews').empty();
+
     employersReturned.forEach( function (items) {
       $('.company-reviews').append($('<strong>').text(items.name));
       $('.company-reviews').append($('<li>').text("Overall Company Rating on glassdoor - " + items.overallRating));
@@ -45,16 +52,24 @@ var sendGetRequestCompanies = function(url){
       $('.company-reviews').append($('<li>').text("Cons - " + items.featuredReview.cons));
     });
 
-    amountOfPages = result.response.totalNumberOfPages;
-    $('.random-page').text("1");
-    $('.random-page-total').text(amountOfPages);
+    if (!refreshAlreadySet) {
+      amountOfPages = result.response.totalNumberOfPages;
+      $('.random-page').text("1");
+      $('.random-page-total').text(amountOfPages);
+      refreshAlreadySet = true;
+    }
   }
 };
 
 $('.refresh').on("click", function() {
-
-  console.log(amountOfPages);
   var randomPage = Math.floor(Math.random()* amountOfPages +1);
+  $('.random-page').text(randomPage);
+  console.log(randomPage);
+  var randomNumUrl = companiesURL + "&pn=" + randomPage;
+  // refreshAlreadySet = true; //needed, probably not?
+  console.log(randomNumUrl);
+  sendGetRequestCompanies(randomNumUrl);
+
 });
 
 
@@ -69,9 +84,11 @@ $('.submit').on("click", function() {
   var stateInputted = $("input[name=state]");
   var concateState = stateInputted.val().replace( / +/g, '_');
 
-  var salaryURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=" + concateRole;
+  salaryURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=" + concateRole;
 
-  var companiesURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&q=" + concateRole + "&city=" + concateCity + "&state=" + concateState;
+  companiesURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&q=" + concateRole + "&city=" + concateCity + "&state=" + concateState;
+
+  refreshAlreadySet = false;
 
   sendGetRequestSalary(salaryURL);
   sendGetRequestCompanies(companiesURL);
