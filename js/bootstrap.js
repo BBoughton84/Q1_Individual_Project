@@ -37,7 +37,7 @@ var sendGetRequestSalary = function(url) {
   }
 };
 
-var sendGetRequestCompanies = function(url, link){
+var sendGetRequestCompanies = function(url){
   $.get(url, function() {
   }).then(showSuccessReviews);
 
@@ -46,7 +46,7 @@ var sendGetRequestCompanies = function(url, link){
     employersReturned.sort(function(a, b) {
         return parseFloat(b.overallRating) - parseFloat(a.overallRating);
     });
-    //clearing the company reviews if the user clicks submit again before refresh
+
     $('.company-reviews').empty();
     $('.search-link').empty();
     $('.search-link').append($('<h3>').text("Search For " + roleForSearchLink + " Positions In " + cityForSearchLink + ", " + stateForSearchLink));
@@ -54,17 +54,10 @@ var sendGetRequestCompanies = function(url, link){
     $('.test-link-search').attr('href', jobSearchLink);
 
     employersReturned.forEach( function (items) {
-      $('.company-reviews').append($('<strong class="title-name">').text(items.name));
-      $('.title-name').wrap('<a class="link-title-name" target="_blank">');
-
       var tempNameHolder = items.name.replace( / +/g, '-');
-
-      console.log(tempNameHolder);
-
+      $('.company-reviews').append($(`<a class="title-name-${tempNameHolder}" target="_blank">`).text(items.name));
       var linkHolder = "https://www.monster.com/jobs/search/?q=" + tempNameHolder + "-" + searchRole + "&where=" + searchCity + "__2C-" + searchState;
-
-
-      $('.link-title-name').attr('href', linkHolder);
+      $(`.title-name-${tempNameHolder}`).attr('href', linkHolder);
       $('.company-reviews').append($('<li>').text("Overall Company Rating on glassdoor - " + items.overallRating));
       $('.company-reviews').append($('<li>').text("Position - " + items.featuredReview.jobTitle));
       $('.company-reviews').append($('<li>').text("Review Headline - " + items.featuredReview.headline));
@@ -101,19 +94,16 @@ $('.submit').on("click", function() {
   searchCity = cityInputted.val().replace( / +/g, '-');
   var concateCity = cityInputted.val().replace( / +/g, '_');
 
-
   var stateInputted = $("input[name=state]");
   stateForSearchLink = stateInputted.val();
   searchState = stateInputted.val().replace( / +/g, '-');
   var concateState = stateInputted.val().replace( / +/g, '_');
-
 
   salaryURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=jobs-prog&countryId=1&jobTitle=" + concateRole;
 
   companiesURL = "http://galvanize-cors-proxy.herokuapp.com/http://api.glassdoor.com/api/api.htm?t.p=121090&t.k=gBFe1PJNdTW&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&q=" + concateRole + "&city=" + concateCity + "&state=" + concateState;
 
   jobSearchLink = "https://www.monster.com/jobs/search/?q=" + searchRole + "&where=" + searchCity + "__2C-" + searchState;
-
 
   refreshAlreadySet = false;
 
