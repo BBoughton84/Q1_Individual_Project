@@ -63,7 +63,6 @@ var sendGetRequestCompanies = function(url){
       // $('.company-reviews').append($('<li>').html(`Check <a  class="twitter-link">Twitter</a> for ${items.name} Mentions`));
       $('.company-reviews').append($('<li>').html(`Check <button  class="twitter-link">Twitter</button> for ${items.name} Mentions`));
       //below for twitter
-      // $('.twitter-link').attr('href', "https://www.google.com");
       $('.company-reviews').append($('<li>').html("<strong>Position</strong> - " + items.featuredReview.jobTitle));
       $('.company-reviews').append($('<li>').html("<strong>Review Headline</strong> - " + items.featuredReview.headline));
       $('.company-reviews').append($('<li>').html("<strong>Pros</strong> - " + items.featuredReview.pros));
@@ -120,31 +119,26 @@ $('.submit').on("click", function() {
 
 //testing the twitter API
 //will need to be .twitter-link once there
-$('.twitter').click(function() {
+$(document).on("click", ".twitter-link", function() {
 
-  // alert('alert twitter click');
-  // console.log('inside twitter click');
 
-  // var $compClicked = $('.twitter-link').text();
-  // console.log($compClicked);
+  var $compClicked2 = $('this').siblings('.main-name').text();
+  console.log("this is this: ", $compClicked2);
+
+  // $.get("https://galvanize-twitter-proxy.herokuapp.com/search/tweets.json?q=%23google", function() {
+  // }).then(showTwitter);
   //
-  // var $compClicked2 = $('this').text();
-  // console.log("this is this: ", $compClicked2);
-
-  $.get("https://galvanize-twitter-proxy.herokuapp.com/search/tweets.json?q=%23google", function() {
-  }).then(showTwitter);
-
-  function showTwitter(result) {
-    console.log(result.statuses.length);
-    $('.twitter-text').empty();
-    $('.twitter-name').empty();
-    $('.twitter-name').append().text("Google");
-    for (var i = 0; i < result.statuses.length; i++) {
-      $('.twitter-text').append($('<p>').text(result.statuses[i].text));
-      $('.twitter-text').append($('<p>').text("From " + result.statuses[i].user.name));
-      $('.twitter-text').append($('<img>').html(`<img href="${result.statuses[i].user.profile_image_url}"`));
-    }
-  }
+  // function showTwitter(result) {
+  //   console.log(result.statuses.length);
+  //   $('.twitter-text').empty();
+  //   $('.twitter-name').empty();
+  //   $('.twitter-name').append().text("Google");
+  //   for (var i = 0; i < result.statuses.length; i++) {
+  //     $('.twitter-text').append($('<p>').text(result.statuses[i].text));
+  //     $('.twitter-text').append($('<p>').text("From " + result.statuses[i].user.name));
+  //     $('.twitter-text').append($('<img>').html(`<img href="${result.statuses[i].user.profile_image_url}"`));
+  //   }
+  // }
 
 });
 
