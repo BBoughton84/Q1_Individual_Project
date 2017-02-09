@@ -60,9 +60,7 @@ var sendGetRequestCompanies = function(url){
       $(`.title-name-${tempNameHolder}`).attr('href', linkHolder);
       $('.company-reviews').append($('<li class="overall-rating">').text( items.overallRating));
       //below for twitter
-      // $('.company-reviews').append($('<li>').html(`Check <a  class="twitter-link">Twitter</a> for ${items.name} Mentions`));
       $('.company-reviews').append($('<li>').html(`Check <button  class="twitter-link">Twitter</button> for ${items.name} Mentions`));
-      //below for twitter
       $('.company-reviews').append($('<li>').html("<strong>Position</strong> - " + items.featuredReview.jobTitle));
       $('.company-reviews').append($('<li>').html("<strong>Review Headline</strong> - " + items.featuredReview.headline));
       $('.company-reviews').append($('<li>').html("<strong>Pros</strong> - " + items.featuredReview.pros));
@@ -122,23 +120,28 @@ $('.submit').on("click", function() {
 $(document).on("click", ".twitter-link", function() {
 
 
-  var $compClicked2 = $('this').siblings('.main-name').text();
-  console.log("this is this: ", $compClicked2);
+  var $compClicked2 = $(this).parent().prev().prev()[0];
+  $compClicked2 = $compClicked2.textContent;
+  var nameForTwitterTitle = $compClicked2;
+  $compClicked2 = $compClicked2.replace( / +/g, '');
 
-  // $.get("https://galvanize-twitter-proxy.herokuapp.com/search/tweets.json?q=%23google", function() {
-  // }).then(showTwitter);
-  //
-  // function showTwitter(result) {
-  //   console.log(result.statuses.length);
-  //   $('.twitter-text').empty();
-  //   $('.twitter-name').empty();
-  //   $('.twitter-name').append().text("Google");
-  //   for (var i = 0; i < result.statuses.length; i++) {
-  //     $('.twitter-text').append($('<p>').text(result.statuses[i].text));
-  //     $('.twitter-text').append($('<p>').text("From " + result.statuses[i].user.name));
-  //     $('.twitter-text').append($('<img>').html(`<img href="${result.statuses[i].user.profile_image_url}"`));
-  //   }
-  // }
+  var urlByComp = "https://galvanize-twitter-proxy.herokuapp.com/search/tweets.json?q=%23" + $compClicked2;
+
+
+  $.get(urlByComp, function() {
+  }).then(showTwitter);
+
+  function showTwitter(result) {
+    $('.twitter-text').empty();
+    $('.twitter-name').empty();
+    $('.twitter-name').append().text(nameForTwitterTitle);
+
+    for (var i = 0; i < result.statuses.length; i++) {
+      $('.twitter-text').append($('<p>').text(result.statuses[i].text));
+      $('.twitter-text').append($('<p>').text("From " + result.statuses[i].user.name));
+      $('.twitter-text').append($('<img>').attr('src', result.statuses[i].user.profile_image_url));
+    }
+  }
 
 });
 
