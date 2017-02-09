@@ -6822,9 +6822,6 @@ li {
   display: flex;
   font-size: 15px;
   flex-direction: column;
-  /*margin-top: 1px;
-  margin-bottom: 1px;*/
-
 }
 
 .input-text {
@@ -6854,6 +6851,18 @@ li {
   color: white;
 }
 
+.twitter-text {
+  /*font-size: 16px;*/
+}
+.from-item {
+  list-style: none;
+  text-decoration: underline;
+}
+
+.twitter-text img {
+  margin-bottom: 40px;
+  margin-left: 30px;
+}
 .bottom-foot {
   padding-bottom: 25px;
 }

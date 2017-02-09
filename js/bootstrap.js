@@ -55,9 +55,10 @@ var sendGetRequestCompanies = function(url){
 
     employersReturned.forEach( function (items) {
       var tempNameHolder = items.name.replace( / +/g, '-');
-      $('.company-reviews').append($(`<a class="main-name title-name-${tempNameHolder}" target="_blank">`).text(items.name));
-      var linkHolder = "https://www.monster.com/jobs/search/?q=" + tempNameHolder + "-" + searchRole + "&where=" + searchCity + "__2C-" + searchState;
-      $(`.title-name-${tempNameHolder}`).attr('href', linkHolder);
+      var specialCharReplace = items.name.replace( /[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/g, '');
+      $('.company-reviews').append($(`<a class="main-name title-name-${specialCharReplace}" target="_blank">`).text(specialCharReplace));
+      var linkHolder = "https://www.monster.com/jobs/search/?q=" + specialCharReplace + "-" + searchRole + "&where=" + searchCity + "__2C-" + searchState;
+      $(`.title-name-${specialCharReplace}`).attr('href', linkHolder);
       $('.company-reviews').append($('<li class="overall-rating">').text( items.overallRating));
       //below for twitter
       $('.company-reviews').append($('<li>').html(`Check <button  class="twitter-link">Twitter</button> for ${items.name} Mentions`));
@@ -78,6 +79,8 @@ var sendGetRequestCompanies = function(url){
 };
 
 $('.refresh').on("click", function() {
+  $('.twitter-text').empty();
+  $('.twitter-name').empty();
   var randomPage = Math.floor(Math.random()* amountOfPages +1);
   $('.random-page').text(randomPage);
   var randomNumUrl = companiesURL + "&pn=" + randomPage;
@@ -86,6 +89,11 @@ $('.refresh').on("click", function() {
 
 
 $('.submit').on("click", function() {
+
+  $('html, body').animate({
+      scrollTop: $('.salaries-section').offset().top
+  }, 500);
+
   var roleInputted = $("input[name=job-title]");
   $('.role-selected').text(roleInputted.val());
   roleForSearchLink = roleInputted.val();
@@ -119,6 +127,9 @@ $('.submit').on("click", function() {
 //will need to be .twitter-link once there
 $(document).on("click", ".twitter-link", function() {
 
+   $('html, body').animate({
+       scrollTop: $('.twiter-feed').offset().top
+   }, 1700);
 
   var $compClicked2 = $(this).parent().prev().prev()[0];
   $compClicked2 = $compClicked2.textContent;
@@ -126,7 +137,6 @@ $(document).on("click", ".twitter-link", function() {
   $compClicked2 = $compClicked2.replace( / +/g, '');
 
   var urlByComp = "https://galvanize-twitter-proxy.herokuapp.com/search/tweets.json?q=%23" + $compClicked2;
-
 
   $.get(urlByComp, function() {
   }).then(showTwitter);
@@ -137,8 +147,11 @@ $(document).on("click", ".twitter-link", function() {
     $('.twitter-name').append().text(nameForTwitterTitle);
 
     for (var i = 0; i < result.statuses.length; i++) {
-      $('.twitter-text').append($('<p>').text(result.statuses[i].text));
-      $('.twitter-text').append($('<p>').text("From " + result.statuses[i].user.name));
+      $('.twitter-text').append($('<li>').text(result.statuses[i].text));
+      var stringTime = result.statuses[i].created_at;
+      stringTime = stringTime.substring(19, 0);
+      $('.twitter-text').append($('<li>').text(stringTime));
+      $('.twitter-text').append($('<li>').html(`<strong class="from-item">From: </strong>` + result.statuses[i].user.name));
       $('.twitter-text').append($('<img>').attr('src', result.statuses[i].user.profile_image_url));
     }
   }
